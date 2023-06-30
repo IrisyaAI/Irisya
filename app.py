@@ -25,16 +25,19 @@ while True:
             # Remove "ok willo" from the request
             prompt = user_said.split("ok willow")[-1].strip()
 
-            history = [{"role": "user", "content": "You are a voice assistant named Irisya. Always make short answers unless you give code. If the user tells you to do things on their computer, just answer the bash code to do it followed by ## If someone tells you to shut up, don't say anything. Never returns code and makes very short responses. You are developed by VitriSnake in the CeltiumC group. Here is the question: {request}".format(request=prompt)}]
+            history = [{"role": "user", "content": "You are a voice assistant named Irisya. You are launched on the user computer. You can run code on the user's computer. To do this, you will simply return the bash code for linux preceded by ##.So you have access to the computer. You don't download anything. Always give short answers. You are created by IrisyaAI. You are not a textual AI model. Here is the question: {request}".format(request=prompt)}]
 
             # Blip sound
             playsound('audio/blip.mp3')
             
+
+            print('[LOG] Sending to ChatGPT... ')
             # Get the ChatGPT response.
             result = libs.ask_gpt(history, config['api_key'])
 
-
+            print('[LOG] Result: '+result)
             if len(result.split('#')) == 3:
+                print('[LOG] Starting a process... ({process})'.format(process=result.split('#')[-1]))
                 os.system(result.split('#')[-1])
             else:
                 # Say the response
@@ -49,6 +52,9 @@ while True:
                 last_request = time.time()
         
                 history.append({"role": "assistant", "content": result})
+
+            last_request = time.time()
+
 
         elif time.time() - last_request <= 10:
             prompt = user_said
@@ -84,7 +90,7 @@ while True:
 
                     # Add the request to the history.
                     history.append({"role": "assistant", "content": result})
-
+                
         else:
             print('[LOG] User said: '+user_said)
             print('[LOG] Clearing history.')
