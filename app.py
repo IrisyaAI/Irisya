@@ -1,10 +1,11 @@
-from gtts import gTTS
 import sys
 import os
 import librarys.libs as libs
 import config.libs as config_lib
 import time
+import platform
 from playsound import playsound
+from gtts import gTTS
 
 try:
     config = config_lib.load_config('./config')
@@ -21,11 +22,11 @@ last_request = 0
 while True:
     try:
         user_said = libs.hear(lang=config['global']['lang'])
-        if "OK ERIZURE" in user_said.upper() or "OKAY ERIZURE" in user_said.upper() or "OKAY ROSIA" in user_said.upper()  or "OK" in user_said.upper():
+        if libs.check_triggers(user_said.upper(), config['triggers']):
             # Remove "ok willo" from the request
             prompt = user_said.split("ok willow")[-1].strip()
 
-            history = [{"role": "user", "content": "You are a voice assistant named Irisya. You are launched on the user computer. You can run code on the user's computer. To do this, you will simply return the bash code for linux preceded by ##.So you have access to the computer. You don't download anything. Always give short answers. You are created by IrisyaAI. You are not a textual AI model. Here is the question: {request}".format(request=prompt)}]
+            history = [{"role": "user", "content": config['global']['message'][platform.system()].format(request=prompt)}]
 
             # Blip sound
             playsound('audio/blip.mp3')
@@ -36,7 +37,7 @@ while True:
             result = libs.ask_gpt(history, config['api_key'])
 
             print('[LOG] Result: '+result)
-            if len(result.split('#')) == 3:
+            if libs.process_request(result) == "_":
                 print('[LOG] Starting a process... ({process})'.format(process=result.split('#')[-1]))
                 os.system(result.split('#')[-1])
             else:
@@ -71,7 +72,7 @@ while True:
             if result == "":
                 print('[LOG] The user asked to be quiet. Ignore the instruction.')
             else:
-                if len(result.split('#')) == 3:
+                if libs.process_request(result) == "_":
                     audio = gTTS(text="I'm doing that.", lang=config['global']['lang'], slow=config['global']['slowly'])
                     audio.save("audio/audio.mp3")
                     playsound('audio/audio.mp3')

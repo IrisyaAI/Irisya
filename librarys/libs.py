@@ -39,5 +39,14 @@ def hear(lang):
         print('Impossible to understand.')
 
 def process_request(request):
-    request_processed = request.split('#')
-    return {"request": request_processed[2], "value": request_processed[1]}
+    try:
+        request_processed = request.split('#')
+        return request_processed[1]
+    except:
+        return False
+
+def check_triggers(string, triggers):
+    for trigger in triggers:
+        if trigger in string:
+            return True
+    return False
