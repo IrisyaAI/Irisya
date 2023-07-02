@@ -16,7 +16,8 @@ Here is a quick documentation of the functions available in the library:
 
 import openai
 import speech_recognition as sr
-
+from playsound import playsound
+from gtts import gTTS
 
 def ask_gpt(messages, api_key, model="gpt-3.5-turbo"):    
     openai.api_key = api_key
@@ -50,3 +51,8 @@ def check_triggers(string, triggers):
         if trigger in string:
             return True
     return False
+
+def say_audio(text, language, slowly):
+    audio = gTTS(text=text, lang=language, slow=slowly)
+    audio.save("audio/audio.mp3")
+    playsound('audio/audio.mp3')

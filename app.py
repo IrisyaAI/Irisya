@@ -13,9 +13,7 @@ except FileNotFoundError:
     print('[CONFIG] Config not exsist. Creating one.')
     config = config_lib.init_config("./config")
 
-audio = gTTS(text="I am ready to help you. Say 'ok Irisia' to talk with me.", lang=config['global']['lang'], slow=config['global']['slowly'])
-audio.save("audio/audio.mp3")
-playsound("audio/audio.mp3")
+libs.say_audio("I am ready to help you. Say 'ok Irisia' to talk with me.", config['global']['lang'], config['global']['slowly'])
 
 last_request = 0
 
@@ -40,11 +38,12 @@ while True:
             if libs.process_request(result) == "_":
                 print('[LOG] Starting a process... ({process})'.format(process=result.split('#')[-1]))
                 os.system(result.split('#')[-1])
+            elif libs.process_request(result) == "!":
+                config['triggers'] = config_lib.create_trigger("./config", result.split('#')[-1])
             else:
                 # Say the response
-                audio = gTTS(text=result, lang=config['global']['lang'], slow=config['global']['slowly'])
-                audio.save("audio/audio.mp3")
-                playsound('audio/audio.mp3')
+                libs.say_audio(result, config['global']['lang'], config['global']['slowly'])
+
 
                 # End bilp
                 playsound('blip.mp3')
@@ -73,15 +72,11 @@ while True:
                 print('[LOG] The user asked to be quiet. Ignore the instruction.')
             else:
                 if libs.process_request(result) == "_":
-                    audio = gTTS(text="I'm doing that.", lang=config['global']['lang'], slow=config['global']['slowly'])
-                    audio.save("audio/audio.mp3")
-                    playsound('audio/audio.mp3')
+                    libs.say_audio(result, config['global']['lang'], config['global']['slowly'])
                     os.system(result.split('#')[-1])
                 else:
                     # Say the response.
-                    audio = gTTS(text=result, lang=config['global']['lang'], slow=config['global']['slowly'])
-                    audio.save("audio/audio.mp3")
-                    playsound('audio/audio.mp3')
+                    libs.say_audio(result, config['global']['lang'], config['global']['slowly'])
 
                     # End bilp
                     playsound('audio/blip.mp3')
