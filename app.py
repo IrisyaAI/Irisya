@@ -46,7 +46,7 @@ while True:
 
 
                 # End bilp
-                playsound('blip.mp3')
+                playsound('audio/blip.mp3')
 
                 # Init the last request.
                 last_request = time.time()
@@ -56,7 +56,7 @@ while True:
             last_request = time.time()
 
 
-        elif time.time() - last_request <= 10:
+        elif time.time() - last_request <= 30:
             prompt = user_said
 
             # Add request to history
