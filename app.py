@@ -8,10 +8,13 @@ from playsound import playsound
 from gtts import gTTS
 
 try:
-    config = config_lib.load_config('./config')
+    config = config_lib.Config('./config/config.json')
 except FileNotFoundError:
     print('[CONFIG] Config not exsist. Creating one.')
-    config = config_lib.init_config("./config")
+    config = config_lib.Config('./config/config.json', autocreate=True)
+
+libs.say_audio("Welcome to Irisya. ", config.get_config_by_profil('default')['language'], config.get_config_by_profil('default')['slowly'])
+
 
 libs.say_audio("I am ready to help you. Say 'ok Irisia' to talk with me.", config['global']['lang'], config['global']['slowly'])
 
