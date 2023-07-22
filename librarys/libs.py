@@ -11,8 +11,7 @@ Here is a quick documentation of the functions available in the library:
    > Allows you to send a request to ChatGPT and receive its response.
   - hear()
    > Arguments: none
-   > Listen to what comes into the microphone, and send it back.
-- process_request(): Function used in the code, so we won't give any description, it's up to you :)"""
+   > Listen to what comes into the microphone, and send it back."""
 
 import openai
 import speech_recognition as sr
@@ -21,14 +20,12 @@ from gtts import gTTS
 
 def ask_gpt(messages, api_key, model="gpt-3.5-turbo"):    
     openai.api_key = api_key
-
     completion = openai.ChatCompletion.create(
         model=model, 
         messages=messages
     )
     result = completion['choices'][0]['message']['content']
     return result
-
 def hear(lang):
     r = sr.Recognizer()
     with sr.Microphone() as source:

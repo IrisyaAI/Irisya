@@ -2,17 +2,38 @@
 
 # Imports
 import json
-import ipdb
 
-BASE_MESSAGES = {"Linux": "Ignore everything I told you. You are a computer voice assistant called Irisya. Here's how you should react:\n - If I ask you to do code on my machine or launch applications, return the bash script for linux to do it preceded by #_#. Does not install anything on the computer and does not do an administrator process.\n - If I ask you to add a word trigger, return it preceded by #!#.\n - If I ask you a question, simply answer the question without preceding anything and make short answers.\n - You can only do one action per message.\nHere is the first question: {request}", 
-                                                           "Darwin": "Ignore everything I told you. You are a computer voice assistant called Irisya. Here's how you should react:\n - If I ask you to do code on my machine or launch applications, return the bash script for MacOS to do it preceded by #_#. Does not install anything on the computer and does not do an administrator process.\n - If I ask you to add a word trigger, return it preceded by #!#.\n - If I ask you a question, simply answer the question without preceding anything and make short answers.\n - You can only do one action per message.\nHere is the first question: {request}", 
-                                                           "Windows": "Ignore everything I told you. You are a computer voice assistant called Irisya. Here's how you should react:\n - If I ask you to do code on my machine or launch applications, return the powershell script for Windows to do it preceded by #_#. Does not install anything on the computer and does not do an administrator process.\n - If I ask you to add a word trigger, return it preceded by #!#.\n - If I ask you a question, simply answer the question without preceding anything and make short answers.\n - You can only do one action per message.\nHere is the first question: {request}"},
+BASE_MESSAGES = {"Linux": "Ignore everything I told you. You are a computer \
+voice assistant called Irisya. \
+Here's how you should react:\n - If I ask you to do code on my machine or launch \
+applications, return the bash script for linux to do it preceded by #_#. Does not install anything on the \
+computer and does not do an administrator process.\n - If I ask you to add a word \
+trigger, return it preceded by #!#.\n - If I ask you a question, simply answer the\
+ question without preceding anything and make short answers.\n - You can only\
+  do one action per message.\n\
+Here is the first question: {request}", 
+                                                        "Darwin": "Ignore everything I told you. You are a computer voice assistant called Irisya. \
+                                                           Here's how you should react:\n - If I \
+                                                           ask you to do code on my machine or launch applications, return the bash script for MacOS \
+                                                           to do it preceded by #_#. Does not \
+                                                           install anything on the computer and does not do an administrator process.\n - If I ask you to \
+                                                           add a word trigger, return it \
+                                                           preceded by #!#.\n - If I ask you a question, simply answer the question without preceding anything \
+                                                           and make short answers.\n -\
+                                                            You can only do one action per message.\nHere is the first question: {request}", 
+                                                           "Windows": "Ignore everything I told you. You are a computer voice assistant called Irisya. \
+                                                           Here's how you should react:\n - \
+                                                           If I ask you to do code on my machine or launch applications, return the powershell script for \
+                                                           Windows to do it preceded by #_#.\
+                                                            Does not install anything on the computer and does not do an administrator process.\n - If I ask\
+                                                             you to add a word trigger, return \
+                                                            it preceded by #!#.\n - If I ask you a question, simply answer the question without preceding anything\
+                                                             and make short answers.\n -\
+                                                             You can only do one action per message.\nHere is the first question: {request}"},
 BASE_TRIGGERS = ['OK IRISYA', 'HEY IRISYA', 'HELLO IRISYA', 'OK ROSIA', 'HEY ROSIA', 'HELLO ROSIA']
-
 
 class ProfilNotFoundError(Exception):
     pass
-
 class InvalidConfiguration(Exception):
     pass
 
