@@ -1,0 +1,99 @@
+<html lang="en">
+	<head>
+		<title>Configuration | Irisya</title>
+		<link rel="icon" href="/static/images/favicon.png" />
+		<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+		<style>
+            @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;500&display=swap');
+
+			.container
+			{
+				width: 50%;
+				margin: auto;
+				font-family: 'Ubuntu', sans-serif;
+			}
+
+			.logo
+			{
+				color: blue;
+				font-weight: 500;
+				font-size: 3em;
+				text-align: center;
+			}
+
+			.create-text
+			{
+				font-size: 1.6em;
+			}
+
+			body {
+				margin-top: 20px;
+			}
+			form {
+				margin: 10px;
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+    <body>
+        <div class="container">
+            <header>
+              	<h1 class="logo">Irisya</h1>
+            </header>
+            <main>
+              	<div class="create">
+                	<h2 class="create-text">Create a profil</h2>
+				</div>
+				<form method="POST" action="/profil/create/get">
+					<div class="mb-3">
+						<label for="profilName" class="form-label">Profil name</label>
+						<input type="text" class="form-control" id="profilName" name="name">
+					</div>
+					<div class="mb-3">
+						<label for="profilApikey" class="form-label">OpenAI API key</label>
+						<input type="text" class="form-control" id="profilApikey" name="api_key" aria-describedby="apikeyHelp">
+					    <div id="apikeyHelp" class="form-text">To get your API key, go to the OpenAI website</div>
+					</div>
+					<div class="mb-3">
+						<label for="profilLanguage" class="form-label">Language</label>
+						<input type="text" class="form-control" id="profilLanguage" name="language" aria-describedby="languageHelp">
+					    <div id="languageHelp" class="form-text">Put the initials of your language (For example "en" or "fr")</div>
+					</div>
+					<div class="mb-3">
+						<label for="profilDescription" class="form-label">Profil description</label>
+						<input type="text" class="form-control" id="profilDescription" name="description">
+					</div>
+					<div class="mb-3">
+						<label for="profilTriggers" class="form-label">Triggers words</label>
+						<input type="text" class="form-control" id="profilTriggers" name="triggers" aria-describedby="triggersHelp" value="OK IRISYA, HEY IRISYA, HELLO IRISYA, OK ROSIA, HEY ROSIA, HELLO ROSIA">
+					    <div id="triggersHelp" class="form-text">PIrisya will listen to you when you say these words. Separate them with a comma.</div>
+					</div>
+					<div class="mb-3">
+						<label for="profilMessages" class="form-label">Messages (In order: Linux, MacOS and Windows)</label>
+						<input type="text" class="form-control" id="profilMessages" name="message_linux" value="Ignore everything I told you. You are a computer voice assistant called Irisya. Here's how you should react:\n - If I ask you to do code on my machine or launch applications, return the bash script for linux to do it preceded by #_#. Does not install anything on the computer and does not do an administrator process.\n - If I ask you to add a word trigger, return it preceded by #!#.\n - If I ask you a question, simply answer the question without preceding anything and make short answers.\n - You can only do one action per message.\nHere is the first question: {request}">
+					    <input type="text" class="form-control" id="profilMessages" name="message_darwin" value="Ignore everything I told you. You are a computer voice assistant called Irisya. Here's how you should react:\n - If I ask you to do code on my machine or launch applications, return the bash script for MacOS to do it preceded by #_#. Does not install anything on the computer and does not do an administrator process.\n - If I ask you to add a word trigger, return it preceded by #!#.\n - If I ask you a question, simply answer the question without preceding anything and make short answers.\n - You can only do one action per message.\nHere is the first question: {request}">
+						<input type="text" class="form-control" id="profilMessages" name="message_windows" value="Ignore everything I told you. You are a computer voice assistant called Irisya. Here's how you should react:\n - If I ask you to do code on my machine or launch applications, return the powershell script for Windows to do it preceded by #_#. Does not install anything on the computer and does not do an administrator process.\n - If I ask you to add a word trigger, return it preceded by #!#.\n - If I ask you a question, simply answer the question without preceding anything and make short answers.\n - You can only do one action per message.\nHere is the first question: {request}">
+						<div id="languageHelp" class="form-text">We strongly advise against editing these messages. However, you can translate them into your language but modifying them could cause problems with Irisya.</div>
+					</div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="add_triggers_with_voice" checked>
+						<label class="form-check-label" for="flexSwitchCheckDefault" >Add trigger with voice</label>
+					</div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="slowly">
+						<label class="form-check-label" for="flexSwitchCheckDefault">Slowly voice</label>
+					</div>
+					<div class="form-check form-switch">
+						<input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault" name="process">
+						<label class="form-check-label" for="flexSwitchCheckDefault">Run scripts on the computer (open applications... )</label>
+					</div>
+					<br />
+					<button type="submit" class="btn btn-primary">Create</button>
+				</form>
+            </main>
+          </div>
+		</div>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+	</body>
+</html>

@@ -1,0 +1,122 @@
+<html lang="en">
+	<head>
+		<title>Configuration | Irisya</title>
+		<link rel="icon" href="/static/images/favicon.png" />
+		<style>
+            @import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;500&display=swap');
+
+			.container
+			{
+				width: 50%;
+				margin: auto;
+				font-family: 'Ubuntu', sans-serif;
+			}
+
+			.logo
+			{
+				color: blue;
+				font-weight: 500;
+				font-size: 3em;
+				text-align: center;
+			}
+
+			.profil-text
+			{
+				font-size: 1.6em;
+			}
+
+			.profil-box
+			{
+				padding: 10px;
+				border: 1px solid gray;
+				border-radius: 3px;
+				margin-bottom: 10px;
+			}
+
+			.button-profil
+			{
+				display: inline-block;
+				padding: 10px;
+				text-decoration: none;
+				color: white;
+				margin-right: 10px;
+				background: blue;
+				border-radius: 10px;
+			}
+
+			.button-create
+			{
+				display: inline-block;
+				padding: 10px;
+				text-decoration: none;
+				margin-right: 10px;
+				background: blue;
+				border-radius: 10px;
+				color: white;
+				text-decoration: none;
+			}
+
+			.green
+			{
+				color: green;
+			}
+
+			.button-remove
+			{
+				background: red;
+			}
+
+			.disabled
+			{
+				pointer-events: none;
+				background: grey;
+			}
+
+			h5
+			{
+				margin: 0;
+				font-weight: 100;
+			}
+			body {
+				margin-top: 20px;
+			}
+		</style>
+	</head>
+    <body>
+        <div class="container">
+            <header>
+              <h1 class="logo">Irisya</h1>
+            </header>
+            <main>
+              <div class="profils">
+                <h2 class="profil-text">My profils: </h2>
+                <div class="create-profil">
+                  <p><a class="button-create"  href="/profil/create">Create a profil</a></p>
+                </div>
+                <div class="profil-box">
+                  <h3 class="profil-name">{{config['active_profil']}} | <span class="green">Active</span></h3>
+                  <p class="profil-edit">{{config['profils'][config['active_profil']]['description']}}<p>
+                  <h5>Actions on the active profile are limited so as not to corrupt the configuration.</h5>
+                  <div class="profil-buttons">
+                    <p><a class="button-profil" href="/profil/{{config['active_profil']}}/edit">Edit</a>
+                       <a class="button-profil button-remove disabled" href="/profil/{{config['active_profil']}}/remove"  title="Hello world!">Remove</a></p>
+                  </div>
+                </div>
+				{%for profil in config['profils']%}
+				{%if not(profil == config['active_profil'])%}
+				<div class="profil-box">
+					<h3 class="profil-name">{{profil}}</h3>
+					<p class="profil-edit">{{config['profils'][profil]['description']}}<p>
+					<div class="profil-buttons">
+					  	<p><a class="button-profil" href="/profil/{{profil}}/edit">Edit</a>
+							<a class="button-profil" href="/profil/{{profil}}/enable">Enable</a>
+							<a class="button-profil button-remove" href="/profil/{{profil}}/remove">Remove</a></p>
+					</div>
+				</div>	
+				{%endif%}
+				{%endfor%}
+			</div>
+            </main>
+          </div>
+    </body>
+</html>
