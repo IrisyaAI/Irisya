@@ -7,27 +7,25 @@ import platform
 from playsound import playsound
 from gtts import gTTS
 
-try:
-    config = config_lib.Config('./config/config.json')
-except FileNotFoundError:
-    print('[CONFIG] Config not exsist. Creating one.')
-    config = config_lib.Config('./config/config.json', autocreate=True)
+config = config_lib.Config('./config/config.json', autocreate=True)
+active_profil_name = config.get_config()['active_profil']
+active_profil = config.get_config_by_profil(active_profil_name)
 
-libs.say_audio("Welcome to Irisya. ", config.get_config_by_profil('default')['language'], config.get_config_by_profil('default')['slowly'])
+libs.say_audio("Welcome to Irisya. The active profil is "+active_profil_name, active_profil['language'], active_profil['slowly'])
 
-
-libs.say_audio("I am ready to help you. Say 'ok Irisia' to talk with me.", config['global']['lang'], config['global']['slowly'])
+libs.say_audio("I am ready to help you. Say 'ok Irisia' to talk with me.", active_profil['language'], active_profil['slowly'])
 
 last_request = 0
 
 while True:
+    config.reload_config()
     try:
-        user_said = libs.hear(lang=config['global']['lang'])
-        if libs.check_triggers(user_said.upper(), config['triggers']):
+        user_said = libs.hear(lang=active_profil['language'])
+        if libs.check_triggers(user_said.upper(), active_profil['triggers']):
             # Remove "ok willo" from the request
             prompt = user_said.split("ok willow")[-1].strip()
 
-            history = [{"role": "user", "content": config['global']['message'][platform.system()].format(request=prompt)}]
+            history = [{"role": "user", "content": active_profil['messages'][platform.system()].format(request=prompt)}]
 
             # Blip sound
             playsound('audio/blip.mp3')
@@ -35,7 +33,7 @@ while True:
 
             print('[LOG] Sending to ChatGPT... ')
             # Get the ChatGPT response.
-            result = libs.ask_gpt(history, config['api_key'])
+            result = libs.ask_gpt(history, active_profil['api_key'])
 
             print('[LOG] Result: '+result)
             if libs.process_request(result) == "_":
@@ -45,7 +43,7 @@ while True:
                 config['triggers'] = config_lib.create_trigger("./config", result.split('#')[-1])
             else:
                 # Say the response
-                libs.say_audio(result, config['global']['lang'], config['global']['slowly'])
+                libs.say_audio(result, active_profil['language'], active_profil['slowly'])
 
 
                 # End bilp
@@ -69,17 +67,17 @@ while True:
             playsound('audio/blip.mp3')
 
             # Get the ChatGPT response.
-            result = libs.ask_gpt(history, config['api_key'])
+            result = libs.ask_gpt(history, active_profil['api_key'])
 
             if result == "":
                 print('[LOG] The user asked to be quiet. Ignore the instruction.')
             else:
                 if libs.process_request(result) == "_":
-                    libs.say_audio(result, config['global']['lang'], config['global']['slowly'])
+                    libs.say_audio(result, active_profil['language'], active_profil['slowly'])
                     os.system(result.split('#')[-1])
                 else:
                     # Say the response.
-                    libs.say_audio(result, config['global']['lang'], config['global']['slowly'])
+                    libs.say_audio(result, active_profil['language'], active_profil['slowly'])
 
                     # End bilp
                     playsound('audio/blip.mp3')
