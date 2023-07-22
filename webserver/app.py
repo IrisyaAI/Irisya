@@ -4,13 +4,13 @@ import sys
 from flask import Flask, render_template, redirect, request
 
 # Edit the path
-sys.path.append('..')
+sys.path.append('.')
 
 # Import the configuration module
 import config.libs
 
 # Load the active config
-config = config.libs.Config("../config/config.json", autocreate=True)
+config = config.libs.Config("./config/config.json", autocreate=True)
 
 # Init flask application
 app = Flask(__name__)
